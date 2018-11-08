@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(name='RLkit',
       version='0.1',
@@ -14,6 +14,6 @@ setup(name='RLkit',
 		    'ipdb==0.11',
 		    'numpy==1.15.4'
     	],
-      packages=setuptools.find_packages(),
+      packages=find_packages(),
       classifiers = ('Intended Audience :: Science/Research', 'Natural Language :: English', 'Programming Language :: Python :: 3.6'),
       zip_safe=False)
