@@ -1,8 +1,8 @@
 import numpy as np
 import os, sys
-sys.path.insert(0, 'C:/Users/Shubham/Documents/Shubham/Projects/rllib/rllib')
-from environment import Environment
-from algorithms import RandomAgent, REINFORCE, DQN
+# sys.path.insert(0, 'C:/Users/Shubham/Documents/Shubham/Projects/rllib/rllib')
+from RLkit.environment import Environment
+from RLkit.algorithms import RandomAgent, REINFORCE, DQN
 
 network_specs = [
   {

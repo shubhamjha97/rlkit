@@ -1,8 +1,8 @@
 import numpy as np
 import os, sys
-sys.path.insert(0, 'C:/Users/Shubham/Documents/Shubham/Projects/rllib/rllib')
-from environment import Environment
-from algorithms import REINFORCE
+import RLkit
+from RLkit.environment import Environment
+from RLkit.algorithms import REINFORCE
 
 network_specs = [
   {
