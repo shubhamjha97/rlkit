@@ -2,9 +2,13 @@ from .agent import Agent
 from .utils import *
 
 class REINFORCE(Agent):
-	def __init__(self, env_, network_specs, gamma = 0.95):
+	def __init__(self, env_, network_specs, value_estimator_specs=None, gamma = 0.95):
 		self.env_ = env_
 		self.network_specs = network_specs
+		self.use_baseline = False
+		if value_estimator_specs is not None:
+			self.value_estimator_specs = value_estimator_specs
+			self.use_baseline = True
 		self.gamma = gamma
 		self.action_space = self.env_.env.action_space
 		self.num_actions = self.action_space.n
@@ -14,12 +18,16 @@ class REINFORCE(Agent):
 		self.layers = []
 
 		self._add_placeholders()
-		self._add_model()
-		print("{} layers".format(len(self.layers)))
 		
-		self.action_logits = tf.layers.dense(self.layers[-1], self.num_actions, kernel_initializer = tf.contrib.layers.xavier_initializer(), activation=None, name='action_logits')
+		self.policy_final_layer = self._add_model('policy_net', self.state_placeholder, network_specs)
+		if self.use_baseline:
+			self.value_final_layer = self._add_model('value_estimator', self.state_placeholder, value_estimator_specs)
+		
+		self.action_logits = tf.layers.dense(self.policy_final_layer, self.num_actions, kernel_initializer = tf.contrib.layers.xavier_initializer(), activation=None, name='action_logits')
 		self.action_probs = tf.nn.softmax(self.action_logits, axis=1, name='action_probs')
 		self.log_likelihood = tf.log(tf.clip_by_value(self.action_probs, 0.000001, 0.999999, name='clip'), name='log_likelihood')
+		if self.use_baseline:
+			self.state_values = tf.layers.dense(self.value_final_layer, 1, kernel_initializer = tf.contrib.layers.xavier_initializer(), activation=None, name='state_values')
 
 		self._add_loss()
 		self._add_optim()
@@ -29,19 +37,13 @@ class REINFORCE(Agent):
 		self.returns_placeholder = tf.placeholder(shape=[None, 1], dtype=tf.float32, name='returns')
 		self.actions_placeholder = tf.placeholder(shape=[None, self.num_actions], dtype=tf.float32, name='actions')
 		self.learning_rate = tf.placeholder(dtype=tf.float32, name='lr')
-		self.layers.append(self.state_placeholder)
-
-
-	# def _add_model(self):
-	# 	self.hidden1 = tf.nn.relu(tf.layers.dense(self.state_placeholder, self.hidden1_size, kernel_initializer = tf.contrib.layers.xavier_initializer(), activation=None, name='hidden1'))
-	# 	self.hidden2 = tf.nn.relu(tf.layers.dense(self.hidden1, self.hidden2_size, kernel_initializer = tf.contrib.layers.xavier_initializer(), activation=None, name='hidden2'))
-	# 	self.action_logits = tf.layers.dense(self.hidden2, self.num_actions, kernel_initializer = tf.contrib.layers.xavier_initializer(), activation=None, name='action_logits')
-	# 	self.action_probs = tf.nn.softmax(self.action_logits, axis=1, name='action_probs')
-	# 	self.log_likelihood = tf.log(tf.clip_by_value(self.action_probs, 0.000001, 0.999999, name='clip'), name='log_likelihood')
 
 	def _add_loss(self):
 		with tf.name_scope("loss_fn"):
-			self.loss = -tf.reduce_mean(tf.multiply(self.returns_placeholder, tf.reshape(tf.reduce_sum(tf.multiply(self.log_likelihood, self.actions_placeholder), axis=1), [-1, 1])), axis=0)
+			if self.use_baseline:
+				self.loss = -tf.reduce_mean(tf.multiply(tf.subtract(self.returns_placeholder, self.state_values), tf.reshape(tf.reduce_sum(tf.multiply(self.log_likelihood, self.actions_placeholder), axis=1), [-1, 1])), axis=0)
+			else:
+				self.loss = -tf.reduce_mean(tf.multiply(self.returns_placeholder, tf.reshape(tf.reduce_sum(tf.multiply(self.log_likelihood, self.actions_placeholder), axis=1), [-1, 1])), axis=0)
 
 	def _add_optim(self):
 		self.optim_step = tf.train.AdamOptimizer(learning_rate = self.learning_rate).minimize(self.loss)
