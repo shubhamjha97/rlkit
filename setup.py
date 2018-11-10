@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='RLkit',
-      version='0.1',
+      version='0.2',
       description='A simple RL library.',
       url='http://github.com/shubhamjha97/RLkit',
       author='Shubham Jha',
