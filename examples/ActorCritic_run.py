@@ -2,9 +2,9 @@ import numpy as np
 import os, sys
 import RLkit
 from RLkit.environment import Environment
-from RLkit.algorithms.policy_gradients import REINFORCE
+from RLkit.algorithms.policy_gradients import ActorCritic
 
-network_specs = [
+actor_specs = [
   {
     "type": "dense",
     "size": 64,
@@ -16,6 +16,15 @@ network_specs = [
     "activation":"relu"
   }
 ]
+
+critic_specs = [
+  {
+    "type": "dense",
+    "size": 20,
+    "activation":"sigmoid"
+  }
+]
+
 env_ = Environment(env_name="CartPole-v1", render = False)
-agent = REINFORCE(env_, network_specs)
-agent.train(episodes=1000, lr=0.001, gamma=1)
+agent = ActorCritic(env_, actor_specs, critic_specs)
+agent.train(episodes=1000, actor_lr=0.001, critic_lr=0.1, gamma=1)

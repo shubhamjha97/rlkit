@@ -1,4 +1,3 @@
-print("Import from directory")
 from .algorithms.random_agent import RandomAgent
 from .algorithms.dqn import DQN
 from .algorithms.policy_gradients import REINFORCE

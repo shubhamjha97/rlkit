@@ -2,7 +2,7 @@ import numpy as np
 import os, sys
 import RLkit
 from RLkit.environment import Environment
-from RLkit.algorithms import REINFORCE
+from RLkit.algorithms.policy_gradients import REINFORCE
 
 network_specs = [
   {
