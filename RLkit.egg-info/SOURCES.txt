@@ -11,7 +11,8 @@ RLkit.egg-info/top_level.txt
 RLkit/algorithms/__init__.py
 RLkit/algorithms/agent.py
 RLkit/algorithms/dqn.py
-RLkit/algorithms/gpi.py
-RLkit/algorithms/policy_gradients.py
 RLkit/algorithms/random_agent.py
 RLkit/algorithms/utils.py
+RLkit/algorithms/policy_gradients/ActorCritic.py
+RLkit/algorithms/policy_gradients/REINFORCE.py
+RLkit/algorithms/policy_gradients/__init__.py
