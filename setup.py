@@ -10,7 +10,7 @@ setup(name='RLkit',
       long_description=open('README.md').read(),
       long_description_content_type="text/markdown",
       install_requires=[
-        'tensorflow==1.11.0',
+        'tensorflow==1.15.2',
 		    'gym==0.10.8',
 		    'ipdb==0.11',
 		    'numpy==1.15.4'
