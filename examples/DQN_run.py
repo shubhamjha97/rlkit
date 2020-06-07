@@ -1,8 +1,8 @@
 import numpy as np
 import os, sys
-import RLkit
-from RLkit.environment import Environment
-from RLkit.algorithms import DQN
+import rlkit
+from rlkit.environment import Environment
+from rlkit.algorithms import DQN
 
 network_specs = [
   {
