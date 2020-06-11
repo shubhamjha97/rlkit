@@ -15,7 +15,7 @@ class BasicTrainer(BaseTrainer):
     def do_step(self):
         action = self.agent.get_action(self.environment.state)
         self.environment.step(action)
-        self.environment.render() # TODO: find better solution
+        # self.environment.render() # TODO: find better solution
 
     def train(self):
         try:
