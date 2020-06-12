@@ -56,24 +56,21 @@ Install the package by running the following command from the root directory of 
 $ python setup.py install	
 ```
 
-## Requirements-
-```
-tensorflow==1.11.0
-gym==0.10.8
-numpy==1.15.4
-```
-
 ## New in v0.2
 - Added DQN and DQN with baseline agents
 - Added ActorCritic agent
 - Added support for various activation functions
 
 
-## Upcoming
-- Duelling DQN
-- Support for logging and plotting
+## Upcoming in v2
+- Support for OpenAI Gym environments, Vizdoom and custom environments
+- Generic constructs such as Environments, Agent and Trainers
+- Better Logging and tracking of metrics
+- Support for CometML
+- Support for the following algorithms
+    - Duelling DQN
+    - Support for logging and plotting
 - Support for adding seeds
-- Support for custom environments
 
 ### Compatibility
 
