@@ -3,14 +3,15 @@ from rlkit.core import BaseEnvironment
 
 
 class GymEnvironment(BaseEnvironment):
-    def __init__(self, params):
+    def __init__(self, params, metrics):
         self.params = params
+        self.metrics = metrics
         self.env_name = params["env_name"]
         self.env = gym.make(self.env_name)
-        super(GymEnvironment, self).__init__()
+        super(GymEnvironment, self).__init__(params, metrics)
 
-    def execute_action(self, action):
-        self.env.step(action)
+    # def execute_action(self, action): # TODO: remove from base class
+    #     self.env.step(action)
 
     def get_action_space(self):
         return self.env.action_space
@@ -38,6 +39,7 @@ class GymEnvironment(BaseEnvironment):
 
     def step(self, action):
         self.state, self.reward, self.done, self.info = self.env.step(action)
+        self.global_step += 1
         return (self.state, self.reward, self.done, self.info, )
 
 
