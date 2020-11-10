@@ -3,3 +3,4 @@ sftp-config.json
 tensorboard/*
 __pycache__/*
 TO_DO.txt
+venv/*

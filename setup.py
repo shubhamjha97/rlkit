@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-setup(name='RLkit',
+setup(name='rlkit',
       version='0.2.0',
       description='A simple RL library.',
       url='http://github.com/shubhamjha97/RLkit',
