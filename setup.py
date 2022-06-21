@@ -13,7 +13,7 @@ setup(name='RLkit',
         'tensorflow==1.11.0',
 		    'gym==0.10.8',
 		    'ipdb==0.11',
-		    'numpy==1.15.4'
+		    'numpy==1.22.0'
     	],
       packages=find_packages(),
       classifiers = ('Intended Audience :: Science/Research', 'Natural Language :: English', 'Programming Language :: Python :: 3.6'),
